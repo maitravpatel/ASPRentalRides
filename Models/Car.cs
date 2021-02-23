@@ -13,7 +13,7 @@ namespace RentalRides.Models
         public int Photo { get; set; }
         public decimal Price { get; set; }
         public Segment Segment { get; set; }
-        public Segment SegmentId { get; set; }
+        public int SegmentId { get; set; }
 
         public List<BookingDetail> BookingDetails { get; set; }
 
