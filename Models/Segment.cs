@@ -11,5 +11,6 @@ namespace RentalRides.Models
         public int SegmentId { get; set; } //Pk
         [Required]
         public string Name { get; set; } 
+        public List<Car> Cars { get; set; }
     }
 }
