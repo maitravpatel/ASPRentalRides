@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +25,7 @@ namespace RentalRides.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Cars.Include(c => c.Segment);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await applicationDbContext.OrderBy(c=>c.Name).ToListAsync());
         }
 
         // GET: Cars/Details/5
@@ -48,7 +50,7 @@ namespace RentalRides.Controllers
         // GET: Cars/Create
         public IActionResult Create()
         {
-            ViewData["SegmentId"] = new SelectList(_context.Segments, "SegmentId", "Name");
+            ViewData["SegmentId"] = new SelectList(_context.Segments.OrderBy(s=>s.Name),"SegmentId", "Name");
             return View();
         }
 
@@ -57,10 +59,30 @@ namespace RentalRides.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,Name,Description,Photo,Price,SegmentId")] Car car)
+        public async Task<IActionResult> Create([Bind("CarId,Name,Description,Price,SegmentId")] Car car, IFormFile Photo)
         {
             if (ModelState.IsValid)
             {
+                //check for a photo and length
+                if(Photo.Length >0)
+                {
+                    //get a temp locations of upload file
+                    var tempFile = Path.GetTempFileName();
+
+                    //CREATE a unique name using GUID
+                    var fileName = Guid.NewGuid() + "-" + Photo.FileName;
+
+                    //set the festination- dynamic - path and file name 
+                    var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\CarsUploads\\" + fileName;
+
+                    //use a stream to create the new file
+                    using var stream = new FileStream(uploadPath, FileMode.Create);
+                    await Photo.CopyToAsync(stream);
+
+                    //add a unique file name as the photo property of the new car object
+                    car.Photo = fileName;
+                }
+
                 _context.Add(car);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
