@@ -18,5 +18,7 @@ namespace RentalRides.Models
 
         public BookingList BookingList { get; set; }
 
+        public Car Car { get; set; }
+
     }
 }
