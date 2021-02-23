@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<RentalRides.Models.Segment>
 <h1>Welcome to Rental Rides</h1>
 
+<a asp-controller="Ride" asp-action="AddSegment"> Add a new Car Segment</a>
+
 <ul>
     @foreach(var c in Model)
     {
@@ -9,18 +11,4 @@
         </li>
     }
 </ul>
-
-@*<ul>
-    <li>
-        <a asp-controller="Ride" asp-action="Browse" asp-route-segment="Sedan"> Sedan </a>
-    </li>
-    <li>
-        <a asp-controller="Ride" asp-action="Browse"> SUV </a>
-    </li>
-    <li>
-        <a asp-controller="Ride" asp-action="Browse"> Truck </a>
-    </li>
-</ul>
-*@
-
 
