@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RentalRides.Models.Segment>
+<h1>Welcome to Rental Rides</h1>
+
+<ul>
+    @foreach(var c in Model)
+    {
+        <li>
+            <a asp-action="Ride" asp-action="Browse" asp-route-segment="@c.Name"> @c.Name </a>
+        </li>
+    }
+</ul>
+
+@*<ul>
+    <li>
+        <a asp-controller="Ride" asp-action="Browse" asp-route-segment="Sedan"> Sedan </a>
+    </li>
+    <li>
+        <a asp-controller="Ride" asp-action="Browse"> SUV </a>
+    </li>
+    <li>
+        <a asp-controller="Ride" asp-action="Browse"> Truck </a>
+    </li>
+</ul>
+*@
+
+
