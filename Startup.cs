@@ -38,7 +38,7 @@ namespace RentalRides
             services.AddAuthentication()
                 .AddGoogle(option =>
                 {
-                    option.ClientId = Configuration.GetSection("Authentication:Google")["ClientID"];
+                    option.ClientId = Configuration.GetSection("Authentication:Google")["ClientId"];
                     option.ClientSecret = Configuration.GetSection("Authentication:Google")["ClientSecret"];
                 });
 
