@@ -33,6 +33,16 @@ namespace RentalRides
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //Enable Google Auth using API Keys
+            services.AddAuthentication()
+                .AddGoogle(option =>
+                {
+                    option.ClientId = Configuration.GetSection("Authentication:Google")["ClientID"];
+                    option.ClientSecret = Configuration.GetSection("Authentication:Google")["ClientSecret"];
+                });
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
