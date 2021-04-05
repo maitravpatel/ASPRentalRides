@@ -30,6 +30,7 @@ namespace RentalRides.Controllers
             return View(await applicationDbContext.OrderBy(c=>c.Name).ToListAsync());
         }
 
+        [AllowAnonymous]
         // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
