@@ -1,25 +1,20 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <script src="http://js.stripe.com/v3/"></script>
-</head>
-<body>
-    <section>
-        <div class="car">
-            <img src="~/img/logo.png" alt="Rental Rides" />
-            <div class="description">
-                <h3>
-                    Your Order Total
-                </h3>
-                <h5>@String.Format("{0:c}", ViewBag.Total)</h5>
-            </div>
-        </div>
-        <button id="checkout-button" class="btn btn-primary">Continue to Payment >></button>
-    </section>
+﻿
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
 
-    <script type="text/javascript">
+<section>
+    <div class="car">
+        <div class="description">
+            <h2>
+                Your Order Total
+            </h2>
+            <h5>@String.Format("{0:c}", ViewBag.Total)</h5>
+        </div>
+    </div>
+    <button id="checkout-button" class="btn btn-primary">Continue to Payment >></button>
+</section>
+
+<script type="text/javascript">
         var stripe = Stripe("@ViewBag.PublishableKey");
         var checkoutButton = document.getElementById("checkout-button");
         checkoutButton.addEventListener("click", function () {
@@ -41,6 +36,4 @@
                     console.error("Error: ", error);
                 });
         });
-    </script>
-</body>
-</html>
+</script>

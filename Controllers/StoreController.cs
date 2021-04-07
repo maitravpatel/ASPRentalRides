@@ -238,12 +238,24 @@ namespace RentalRides.Controllers
                 {
                     CarId = item.CarId,
                     TotalCost = (decimal)(item.Price * item.Quantity),
-                    BookingListId = bookingList.Id
-
+                    BookingListId = bookingList.BookingListId
                 };
 
                 _context.BookingDetails.Add(bookingDetail);
             }
+            _context.SaveChanges();
+
+            //delete the items from user's cart
+            foreach(var item in cartItems)
+            {
+                _context.Carts.Remove(item);
+            }
+
+            _context.SaveChanges();
+
+            //HttpContext.Session.SetInt32("ItemCount", 0);
+
+            return RedirectToAction("Details", "Orders", new { @id = bookingList.BookingListId });
         }
     }
 }
