@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="http://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <section>
+        <div class="car">
+            <img src="~/img/logo.png" alt="Rental Rides" />
+            <div class="description">
+                <h3>
+                    Your Order Total
+                </h3>
+                <h5>@String.Format("{0:c}", ViewBag.Total)</h5>
+            </div>
+        </div>
+        <button id="checkout-button" class="btn btn-primary">Continue to Payment >></button>
+    </section>
+
+    <script type="text/javascript">
+        var stripe = Stripe("@ViewBag.PublishableKey");
+        var checkoutButton = document.getElementById("checkout-button");
+        checkoutButton.addEventListener("click", function () {
+            fetch("/Store/ProcessPayment", {
+                method: "POST",
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    return stripe.redirectToCheckout({ sessionId: sessionId });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error: ", error);
+                });
+        });
+    </script>
+</body>
+</html>

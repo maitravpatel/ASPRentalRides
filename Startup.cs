@@ -42,6 +42,11 @@ namespace RentalRides
                     option.ClientSecret = Configuration.GetSection("Authentication:Google")["ClientSecret"];
                 });
 
+            // Enable session support to store identities for the shopping cart
+            services.AddSession();
+
+            //add config support for storecontroller
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -68,6 +73,9 @@ namespace RentalRides
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            //Enable Session support to store identities when shopping BEFORE url mapping
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
