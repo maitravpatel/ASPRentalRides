@@ -33,7 +33,7 @@ namespace RentalRides.Controllers
                 return NotFound();
             }
 
-            var bookingList = await _context.BookingLists
+            var bookingList = await _context.BookingLists.Include(b => b.BookingDetails).ThenInclude(b =>b.Car)
                 .FirstOrDefaultAsync(m => m.BookingListId == id);
             if (bookingList == null)
             {

@@ -214,7 +214,7 @@ namespace RentalRides.Controllers
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = "https://" + Request.Host + "/Store/SaveOrder",
+                SuccessUrl = "https://" + Request.Host + "/BookingLists/Index", // /Store/SaveOrder
                 CancelUrl = "https://" + Request.Host + "/Store/Cart",
             };
             var service = new SessionService();
@@ -223,39 +223,39 @@ namespace RentalRides.Controllers
 
         }
         
-        [Authorize]
-        public IActionResult SaveOrder()
-        {
-            var bookingList = HttpContext.Session.GetObject<Models.BookingList>("Booking List");
+        //[Authorize]
+        //public IActionResult SaveOrder()
+        //{
+        //    var bookingList = HttpContext.Session.GetObject<Models.BookingList>("Booking List");
 
-            _context.BookingLists.Add(bookingList);
-            _context.SaveChanges();
+        //    _context.BookingLists.Add(bookingList);
+        //    _context.SaveChanges();
 
-            var cartItems = _context.Carts.Where(c => c.CustomerId == HttpContext.Session.GetString("CustomerId"));
-            foreach(var item in cartItems)
-            {
-                var bookingDetail = new BookingDetail
-                {
-                    CarId = item.CarId,
-                    TotalCost = (decimal)(item.Price * item.Quantity),
-                    BookingListId = bookingList.BookingListId
-                };
+        //    var cartItems = _context.Carts.Where(c => c.CustomerId == HttpContext.Session.GetString("CustomerId"));
+        //    foreach(var item in cartItems)
+        //    {
+        //        var bookingDetail = new BookingDetail
+        //        {
+        //            CarId = item.CarId,
+        //            TotalCost = (decimal)(item.Price * item.Quantity),
+        //            BookingListId = bookingList.BookingListId
+        //        };
 
-                _context.BookingDetails.Add(bookingDetail);
-            }
-            _context.SaveChanges();
+        //        _context.BookingDetails.Add(bookingDetail);
+        //    }
+        //    _context.SaveChanges();
 
-            //delete the items from user's cart
-            foreach(var item in cartItems)
-            {
-                _context.Carts.Remove(item);
-            }
+        //    //delete the items from user's cart
+        //    foreach(var item in cartItems)
+        //    {
+        //        _context.Carts.Remove(item);
+        //    }
 
-            _context.SaveChanges();
+        //    _context.SaveChanges();
 
-            //HttpContext.Session.SetInt32("ItemCount", 0);
+        //    //HttpContext.Session.SetInt32("ItemCount", 0);
 
-            return RedirectToAction("Details", "Orders", new { @id = bookingList.BookingListId });
-        }
+        //    return RedirectToAction("Details", "Orders", new { @id = bookingList.BookingListId });
+        //}
     }
 }
