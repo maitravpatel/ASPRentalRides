@@ -14,7 +14,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Car)
             </th>
-            <th></th>
             <th class="text-right">
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
@@ -25,35 +24,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-    total += (item.Quantity * item.Price);
-        <tr>
-            <td>
-                <a asp-controller="Cars" asp-action="Details" asp-route-id="@item.CarId">@item.Car.Name</a>
-                @*@Html.DisplayFor(modelItem => item.Car.Description)*@
-            </td>
-            <td>
-                @if (item.Car.Photo != null)
-                {
-                    //@("~/img/CarsUploads/"+Model.Photo)
-                    <img src="@("~/img/CarsUploads/"+item.Car.Photo)" alt="Car Image" width="80" height="auto" />
-                }
-            </td>
-            <td class="text-right">
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td class="text-right">
-                @String.Format("{0:c}", item.Price)
-            </td>
-            <td>
-                <a asp-action="RemoveFromCart" asp-route-id="@item.CartId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            total += (item.Quantity * item.Price);
+            <tr>
+                <td>
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@item.CarId">@item.Car.Name</a>
+                    @*@Html.DisplayFor(modelItem => item.Car.Description)*@
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td class="text-right">
+                    @String.Format("{0:c}", item.Price)
+                </td>
+                <td>
+                    <a asp-action="RemoveFromCart" asp-route-id="@item.CartId">Delete</a>
+                </td>
+            </tr>
+        }
 
         <tr>
             <td colspan="4" class="text-right">
-                @String.Format("{0:c}",total)
+                @String.Format("{0:c}", total)
             </td>
             <td>
                 <a class="btn btn-primary" asp-action="Index">Keep Shopping</a>
