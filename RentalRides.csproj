@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\API\" />
     <Folder Include="Views\API\" />
     <Folder Include="wwwroot\img\CarsUploads\" />
   </ItemGroup>
